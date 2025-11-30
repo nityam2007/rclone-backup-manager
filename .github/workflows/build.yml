@@ -79,13 +79,45 @@ jobs:
           name: rclone-backup-manager-windows
           path: windows-build
       
+      - name: Create release archives
+        run: |
+          cd linux-build && zip -r ../rclone-backup-manager-linux.zip . && cd ..
+          cd windows-build && zip -r ../rclone-backup-manager-windows.zip . && cd ..
+      
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            linux-build/**
-            windows-build/**
+            rclone-backup-manager-linux.zip
+            rclone-backup-manager-windows.zip
           draft: false
           prerelease: false
+          body: |
+            # RClone Backup Manager v2.0.0
+            
+            🎉 **First Official Release**
+            
+            ## Features
+            - ✨ Beautiful cross-platform GUI for rclone backups
+            - 📊 Modern tabbed interface with real-time progress tracking
+            - ⚙️ Visual configuration editor (no manual JSON editing)
+            - 🔔 System tray support with minimize to tray
+            - ⏰ Auto-run mode - backups every 5 minutes
+            - 📅 Last backup timestamp tracking
+            - 📝 Comprehensive logging with auto-refresh
+            - 🧪 Dry run mode for testing backups
+            - ⚡ Multi-threaded parallel operations
+            - 📚 Complete documentation and setup guides
+            
+            ## Downloads
+            - **Linux**: `rclone-backup-manager-linux.zip`
+            - **Windows**: `rclone-backup-manager-windows.zip`
+            
+            ## Installation
+            1. Download the appropriate file for your OS
+            2. Extract the archive
+            3. Run the executable (`backup_gui` on Linux, `backup_gui.exe` on Windows)
+            
+            For detailed instructions, see the [README](https://github.com/nityam2007/rclone-backup-manager#readme)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
