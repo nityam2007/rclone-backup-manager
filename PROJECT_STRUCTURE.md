@@ -5,20 +5,21 @@ rclone-backup-manager/
 ├── .github/
 │   └── workflows/
 │       └── build.yml              # GitHub Actions for automated builds
-├── backup/
-│   └── backup_gui.py              # Main application (single file)
+├── backup_gui.py                  # Main application (single file ~1450 lines)
 ├── build/                         # Build artifacts (gitignored)
 ├── dist/                          # Distribution executables (gitignored)
 ├── .gitignore                     # Git ignore rules
 ├── CHANGELOG.md                   # Version history and changes
 ├── CONTRIBUTING.md                # Contribution guidelines
+├── folders.json.example           # Example configuration file
 ├── INSTALL.md                     # Detailed installation guide
 ├── LICENSE                        # Public Domain (Unlicense)
+├── PROJECT_STRUCTURE.md           # This file
 ├── QUICKSTART.md                  # 5-minute quick start guide
 ├── README.md                      # Main documentation
-├── folders.json.example           # Example configuration file
 ├── rclone_backup_gui.spec         # PyInstaller build specification
-└── requirements.txt               # Python dependencies
+├── requirements.txt               # Python dependencies
+└── setup.sh                       # Automated setup script (Linux)
 ```
 
 ## Runtime Files (Created on First Run)
@@ -26,15 +27,24 @@ rclone-backup-manager/
 These files are created automatically when you run the application:
 
 ```
-backup/
 ├── backup_gui.log                 # Application logs
 ├── folders.json                   # Your backup configuration
 └── .first_run_done                # First run flag (for --checksum)
 ```
 
+## Build Artifacts (Gitignored)
+
+When building executables, these directories are created:
+
+```
+├── build/                         # PyInstaller build cache
+├── dist/                          # Distribution executables
+└── __pycache__/                   # Python bytecode cache
+```
+
 ## Key Files Explained
 
-### `backup/backup_gui.py`
+### `backup_gui.py`
 The entire application in a single Python file (~1450 lines). Contains:
 - GUI implementation using Tkinter
 - Backup manager with multi-threading
@@ -69,7 +79,7 @@ cd rclone-backup-manager
 pip install -r requirements.txt
 
 # Run from source
-python backup/backup_gui.py
+python backup_gui.py
 
 # Build executable
 pip install pyinstaller

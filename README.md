@@ -88,7 +88,7 @@ cd rclone-backup-manager
 pip install -r requirements.txt
 
 # Run the application
-python backup/backup_gui.py
+python backup_gui.py
 ```
 
 #### Option 2: Build Standalone Executable
@@ -116,7 +116,7 @@ dist\backup_gui\backup_gui.exe  # Windows
 
 2. **Launch RClone Backup Manager**:
    ```bash
-   python backup/backup_gui.py
+   python backup_gui.py
    ```
 
 3. **Add Your First Backup**:
@@ -199,13 +199,13 @@ Examples:
 
 ```bash
 # Show version
-python backup/backup_gui.py --version
+python backup_gui.py --version
 
 # Use custom config file
-python backup/backup_gui.py --config /path/to/custom.json
+python backup_gui.py --config /path/to/custom.json
 
 # Show help
-python backup/backup_gui.py --help
+python backup_gui.py --help
 ```
 
 ---
@@ -243,7 +243,7 @@ After=network.target
 Type=simple
 User=yourusername
 Environment=DISPLAY=:0
-ExecStart=/usr/bin/python3 /path/to/backup/backup_gui.py
+ExecStart=/usr/bin/python3 /path/to/backup_gui.py
 Restart=on-failure
 
 [Install]
@@ -274,7 +274,7 @@ Higher values = faster but more resource-intensive.
 pip install pyinstaller pillow pystray
 
 # Build single-file executable
-pyinstaller --onefile --windowed --name rclone-backup-manager backup/backup_gui.py
+pyinstaller --onefile --windowed --name rclone-backup-manager backup_gui.py
 
 # Executable will be in dist/
 ```
@@ -340,7 +340,7 @@ pip install -r requirements.txt
 python -m pytest
 
 # Run the application
-python backup/backup_gui.py
+python backup_gui.py
 ```
 
 ---

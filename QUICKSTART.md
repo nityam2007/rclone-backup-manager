@@ -46,7 +46,7 @@ sudo apt install python3-tk  # Debian/Ubuntu
 ## Step 4: Run the Application
 
 ```bash
-python3 backup/backup_gui.py
+python3 backup_gui.py
 ```
 
 ## Step 5: Add Your First Backup
@@ -108,7 +108,7 @@ sudo apt install python3-tk
 ### "Permission denied"
 ```bash
 # Make script executable (Linux)
-chmod +x backup/backup_gui.py
+chmod +x backup_gui.py
 ```
 
 ---

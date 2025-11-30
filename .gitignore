@@ -37,6 +37,10 @@ folders.json
 venv/
 ENV/
 env/
+.venv
+.env
+.venv/
+.env/
 
 # IDE
 .vscode/

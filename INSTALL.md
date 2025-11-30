@@ -118,17 +118,17 @@ If you skip this, the app will still work but won't have tray icon functionality
 cd rclone-backup-manager
 
 # Run the application
-python3 backup/backup_gui.py
+python3 backup_gui.py
 ```
 
 ### With Custom Config File
 ```bash
-python3 backup/backup_gui.py --config /path/to/custom.json
+python3 backup_gui.py --config /path/to/custom.json
 ```
 
 ### Check Version
 ```bash
-python3 backup/backup_gui.py --version
+python3 backup_gui.py --version
 ```
 
 ---
@@ -155,7 +155,7 @@ pyinstaller --onefile \
             --windowed \
             --name rclone-backup-manager \
             --add-data "backup:backup" \
-            backup/backup_gui.py
+            backup_gui.py
 ```
 
 ### Step 3: Find Your Executable
@@ -201,7 +201,7 @@ Add:
 Type=Application
 Name=RClone Backup Manager
 Comment=Manage rclone backups with a GUI
-Exec=/path/to/backup/backup_gui.py
+Exec=/path/to/backup_gui.py
 Icon=folder-sync
 Terminal=false
 Categories=Utility;System;
@@ -233,7 +233,7 @@ If Windows Defender blocks the executable:
 ### "Command not found: python3"
 **Windows**: Use `python` instead of `python3`
 ```cmd
-python backup/backup_gui.py
+python backup_gui.py
 ```
 
 ### "No module named 'tkinter'"
@@ -252,7 +252,7 @@ where rclone  # Windows
 ### Permission Denied (Linux)
 Make the script executable:
 ```bash
-chmod +x backup/backup_gui.py
+chmod +x backup_gui.py
 ```
 
 ### Import Errors
@@ -266,7 +266,7 @@ pip3 install --force-reinstall -r requirements.txt
 ## Next Steps
 
 1. ✅ **Configure rclone**: `rclone config`
-2. ✅ **Run the application**: `python3 backup/backup_gui.py`
+2. ✅ **Run the application**: `python3 backup_gui.py`
 3. ✅ **Add your first backup** in the Configuration tab
 4. ✅ **Test with dry run** mode
 5. ✅ **Enable auto-run** for hands-free backups
