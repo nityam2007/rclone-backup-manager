@@ -1,0 +1,25 @@
+{
+  "backup_sets": [
+    {
+      "name": "Example - My Documents",
+      "local": "/home/user/Documents",
+      "remote": "gdrive:Backups/Documents"
+    },
+    {
+      "name": "Example - Photos",
+      "local": "/home/user/Pictures",
+      "remote": "gdrive:Backups/Photos"
+    }
+  ],
+  "settings": {
+    "transfers": 8,
+    "checkers": 8,
+    "retries": 3,
+    "retries_sleep": "10s"
+  },
+  "app_settings": {
+    "minimize_to_tray": true,
+    "auto_run_enabled": false,
+    "auto_run_interval_min": 5
+  }
+}

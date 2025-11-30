@@ -1,0 +1,88 @@
+name: Build Executables
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+      
+      - name: Build executable
+        run: |
+          pyinstaller rclone_backup_gui.spec
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: rclone-backup-manager-linux
+          path: dist/backup_gui/
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+      
+      - name: Build executable
+        run: |
+          pyinstaller rclone_backup_gui.spec
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: rclone-backup-manager-windows
+          path: dist/backup_gui/
+
+  release:
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: rclone-backup-manager-linux
+          path: linux-build
+      
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: rclone-backup-manager-windows
+          path: windows-build
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            linux-build/**
+            windows-build/**
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
