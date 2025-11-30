@@ -23,7 +23,8 @@ MANIFEST
 
 # PyInstaller
 *.manifest
-*.spec
+# Note: rclone_backup_gui.spec is NOT ignored (needed for builds)
+
 
 # Logs
 *.log
