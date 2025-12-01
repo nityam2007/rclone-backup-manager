@@ -2,6 +2,19 @@
 
 All notable changes to RClone Backup Manager will be documented in this file.
 
+## [2.1.2] - 2025-12-01
+### Added
+- **Minimize to Tray**: Dedicated button in Backup tab.
+- **Start Minimized**: Option to start the application silently in the tray.
+- **Single Instance**: Prevents multiple instances from running simultaneously.
+- **Configurable Settings**: Dry Run and Auto-Run settings now persist in the Config tab.
+- **Scrolling Support**: Mouse wheel scrolling for backup lists and dialogs.
+
+### Fixed
+- **Linux Build**: Fixed build process to use correct spec file.
+- **Tray Behavior**: Robust minimize-to-tray logic for Linux and Windows.
+- **UI Consistency**: Unified dialog styling.
+
 ## [2.1.0] - 2025-12-01
 
 ### Added

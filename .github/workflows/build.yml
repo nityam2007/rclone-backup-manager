@@ -28,7 +28,7 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller rclone_backup.spec
+          pyinstaller rclone_backup_gui.spec
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -93,16 +93,20 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            # RClone Backup Manager v2.1.1
+            # RClone Backup Manager v2.1.2
 
-            🚀 **Major Update: Modern UI & Modular Core**
+            🚀 **Update: Enhanced Tray & Settings**
 
             ## New Features
-            - 🎨 **Modern Interface**: Complete redesign with `ttkbootstrap` (Light/Dark themes).
-            - 🧩 **Modular Architecture**: Refactored for better stability and maintenance.
-            - 🖥️ **System Tray**: Native tray integration with toggle support.
-            - ⚡ **Performance**: Improved threading and status tracking.
-            - 📝 **Human-Readable Docs**: Simplified documentation for everyone.
+            - ⬇️ **Minimize to Tray**: Dedicated button in Backup tab and robust tray integration.
+            - 🚀 **Start Minimized**: Option to start the application silently in the tray.
+            - 🔒 **Single Instance**: Prevents multiple instances from running simultaneously.
+            - ⚙️ **Configurable Settings**: Dry Run and Auto-Run settings now persist in the Config tab.
+            - 🖱️ **Scrolling Support**: Mouse wheel scrolling for backup lists and dialogs.
+
+            ## Improvements
+            - 🎨 **UI Consistency**: Unified dialog styling with modern theme.
+            - 🐛 **Bug Fixes**: Resolved startup errors and tray behavior on Linux.
 
             ## Downloads
             - **Linux**: `rclone-backup-manager-linux.zip`
