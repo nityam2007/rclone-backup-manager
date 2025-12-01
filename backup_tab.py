@@ -13,10 +13,11 @@ from ui_components import create_tooltip
 class BackupTab:
     """Backup operations tab component."""
 
-    def __init__(self, parent: ttk.Frame, manager: BackupManager, root):
+    def __init__(self, parent: ttk.Frame, manager: BackupManager, root, on_minimize=None):
         self.parent = parent
         self.manager = manager
         self.root = root
+        self.on_minimize = on_minimize
         self.backup_widgets: Dict[str, Dict] = {}
         
         # Variables
@@ -299,7 +300,9 @@ class BackupTab:
 
     def _minimize_app(self):
         """Minimize application to tray."""
-        if hasattr(self.root, 'iconify'):
+        if self.on_minimize:
+            self.on_minimize()
+        elif hasattr(self.root, 'iconify'):
             self.root.iconify()
 
     def _toggle_auto_run(self):

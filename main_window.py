@@ -128,7 +128,12 @@ class MainWindow:
         # Tab 1: Backup Operations
         backup_frame = ttk.Frame(self.notebook)
         self.notebook.add(backup_frame, text="Backups")
-        self.backup_tab = BackupTab(backup_frame, self.manager, self.root)
+        self.backup_tab = BackupTab(
+            backup_frame, 
+            self.manager, 
+            self.root,
+            on_minimize=self._minimize_to_tray
+        )
         self.backup_tab.status_bar = self.status_bar
         self.backup_tab.setup()
 

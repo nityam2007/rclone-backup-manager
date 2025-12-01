@@ -4,6 +4,7 @@
 import argparse
 import platform
 import sys
+import tempfile
 from pathlib import Path
 
 from constants import APP_NAME, VERSION, HAS_TK, HAS_TRAY, CFG_FILE, LOG_FILE, logger
