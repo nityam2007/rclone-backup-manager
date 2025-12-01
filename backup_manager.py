@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Backup operations manager.
-
-This module manages backup operations, tracks their status,
-and coordinates multi-threaded backup execution.
-"""
+"""Backup operations manager."""
 
 import threading
 from datetime import datetime
@@ -16,18 +12,9 @@ from rclone_runner import run_rclone_copy
 
 
 class BackupManager:
-    """Manages backup operations and tracks their status.
-    
-    This class handles:
-    - Loading and reloading configuration
-    - Starting and managing backup threads
-    - Tracking backup progress and status
-    - Collecting logs from backup operations
-    - Recording last run timestamps
-    """
+    """Manages backup operations and tracks their status."""
 
     def __init__(self):
-        """Initialize the backup manager."""
         self.config = load_config()
         self.threads: Dict[str, threading.Thread] = {}
         self.status: Dict[str, Dict] = {}
@@ -42,31 +29,17 @@ class BackupManager:
         logger.info("Configuration reloaded")
 
     def get_backup_sets(self) -> List[Dict]:
-        """Get list of backup sets.
-        
-        Returns:
-            List of backup set dictionaries.
-        """
         return self.config.get('backup_sets', [])
 
     def get_settings(self) -> Dict:
-        """Get settings.
-        
-        Returns:
-            Settings dictionary.
-        """
         return self.config.get('settings', {})
 
     def start_all(self, dry_run: bool = False):
-        """Start all backup operations.
-        
-        Args:
-            dry_run: If True, run in dry-run mode (no actual copying).
-        """
+        """Start all backup operations."""
         self.stop_requested = False
         settings = self.get_settings()
 
-        # Build extras from settings
+        # Build rclone arguments
         extras = [
             f'--transfers={settings.get("transfers", 8)}',
             f'--checkers={settings.get("checkers", 8)}',
@@ -74,7 +47,7 @@ class BackupManager:
             f'--retries-sleep={settings.get("retries_sleep", "10s")}'
         ]
 
-        # First run uses checksum
+        # First run optimization
         first_run = not FIRST_RUN_FLAG.exists()
         if first_run:
             extras.append('--checksum')
@@ -92,7 +65,7 @@ class BackupManager:
                 logger.warning(f"Skipping {name}: missing local or remote path")
                 continue
 
-            # Clear previous status and logs
+            # Reset status
             with self.lock:
                 self.status[name] = {'percent': 0, 'line': 'Starting...', 'rc': None}
                 self.logs[name] = []
@@ -109,15 +82,7 @@ class BackupManager:
             FIRST_RUN_FLAG.write_text(datetime.utcnow().isoformat())
 
     def _run_backup(self, name: str, local: str, remote: str, extras: List[str]):
-        """Run a single backup operation.
-        
-        Args:
-            name: Backup set name.
-            local: Local path to backup.
-            remote: Remote destination.
-            extras: Additional rclone arguments.
-        """
-        # Record start time
+        """Run a single backup operation."""
         start_time = datetime.now()
         start_time_str = start_time.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -129,17 +94,15 @@ class BackupManager:
             with self.lock:
                 self.logs[name].append(line)
 
-        # Log start time
         with self.lock:
             self.logs[name].append(f'\n=== Backup started at {start_time_str} ===\n')
 
-        # Adjust remote path if needed
+        # Adjust remote path
         try:
             rhs_raw = remote.split(':', 1)[1] if ':' in remote else ''
         except Exception:
             rhs_raw = ''
 
-        # If remote has no path after colon, append local folder name
         if '/' not in rhs_raw and rhs_raw:
             target_remote = f"{remote.rstrip('/')}/{Path(local).name}"
         else:
@@ -148,7 +111,6 @@ class BackupManager:
         logger.info(f"Starting backup: {name} ({local} -> {target_remote}) at {start_time_str}")
         rc = run_rclone_copy(local, target_remote, extras, progress_cb, log_cb)
 
-        # Record completion time
         end_time = datetime.now()
         end_time_str = end_time.strftime('%Y-%m-%d %H:%M:%S')
         duration = (end_time - start_time).total_seconds()
@@ -165,44 +127,22 @@ class BackupManager:
         logger.info(f"Backup completed: {name} (exit code: {rc}) at {end_time_str}")
 
     def get_status(self) -> Dict:
-        """Get current status of all backups.
-        
-        Returns:
-            Dictionary mapping backup names to their status.
-        """
+        """Get current status of all backups."""
         with self.lock:
             return dict(self.status)
 
     def get_logs(self, name: str) -> str:
-        """Get logs for a specific backup.
-        
-        Args:
-            name: Backup set name.
-            
-        Returns:
-            Concatenated log string.
-        """
+        """Get logs for a specific backup."""
         with self.lock:
             return ''.join(self.logs.get(name, []))
 
     def get_last_run_time(self, name: str) -> str:
-        """Get last run time for a specific backup.
-        
-        Args:
-            name: Backup set name.
-            
-        Returns:
-            Last run timestamp string or 'Never'.
-        """
+        """Get last run time for a specific backup."""
         with self.lock:
             return self.last_run_times.get(name, 'Never')
 
     def is_running(self) -> bool:
-        """Check if any backup is currently running.
-        
-        Returns:
-            True if any backup is in progress, False otherwise.
-        """
+        """Check if any backup is currently running."""
         status = self.get_status()
         for name, s in status.items():
             if s.get('rc') is None and s.get('percent', 0) < 100:

@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
-"""Main application window and tab management.
-
-This module orchestrates the main window, menu bar, tabs,
-and coordinates all UI components.
-"""
+"""Main application window and tab management."""
 
 import os
 import subprocess
-
 import tkinter as tk
 
 from constants import (
@@ -29,32 +24,16 @@ if HAS_TRAY:
 
 
 class MainWindow:
-    """Main application window with tabbed interface.
-    
-    This class handles:
-    - Creating and managing the main window
-    - Setting up the menu bar and status bar
-    - Managing tabs (Backup, Configuration, Logs)
-    - System tray integration
-    - Window lifecycle events
-    """
+    """Main application window with tabbed interface."""
 
     def __init__(self, manager: BackupManager):
-        """Initialize the main window.
-        
-        Args:
-            manager: BackupManager instance.
-        """
         self.manager = manager
         
-        # Import tkinter for BooleanVar (needed regardless of ttkbootstrap)
-        import tkinter as tk
-        
-        # Load app settings from config
+        # Load settings
         app_settings = self.manager.config.get('app_settings', {})
         self.current_theme = app_settings.get('theme', DEFAULT_THEME)
 
-        # Create window with modern theme if ttkbootstrap available
+        # Initialize Window
         if HAS_TTK_BOOTSTRAP:
             self.root = ttk.Window(themename=self.current_theme)
         else:
@@ -64,17 +43,16 @@ class MainWindow:
         self.root.geometry("1000x650")
         self.root.minsize(800, 500)
 
-        # Set window icon if available
         self._set_window_icon()
 
-        # Tray icon reference
+        # Tray setup
         self.tray_manager = None
         self.is_minimized_to_tray = False
         self.minimize_to_tray_enabled = tk.BooleanVar(
             value=app_settings.get('minimize_to_tray', True)
         )
 
-        # Tab references
+        # UI Components
         self.backup_tab = None
         self.config_tab = None
         self.logs_tab = None
@@ -82,15 +60,12 @@ class MainWindow:
         self.status_bar = None
         self.backup_count_label = None
 
-        # Setup UI
         self._setup_ui()
         self._setup_tray()
 
-        # Handle window close and minimize
+        # Event Bindings
         self.root.protocol("WM_DELETE_WINDOW", self._on_close)
         self.root.bind("<Unmap>", self._on_minimize)
-
-        # Bind keyboard shortcuts
         self.root.bind('<F5>', lambda e: self._reload_config())
         self.root.bind('<Control-q>', lambda e: self._on_close())
 

@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
-"""Logs viewer tab UI and logic.
-
-This module implements the logs viewer tab where users can
-view and monitor backup operation logs in real-time.
-"""
+"""Logs viewer tab UI and logic."""
 
 import os
 import subprocess
-
 import tkinter as tk
 
 from constants import ttk, scrolledtext, messagebox, IS_WINDOWS, LOG_FILE, HAS_TTK_BOOTSTRAP
@@ -16,22 +11,9 @@ from ui_components import create_tooltip
 
 
 class LogsTab:
-    """Logs viewer tab component.
-    
-    This class handles:
-    - Displaying logs for selected backup sets
-    - Auto-refreshing logs during operations
-    - Viewing the main log file
-    """
+    """Logs viewer tab component."""
 
     def __init__(self, parent: ttk.Frame, manager: BackupManager, root):
-        """Initialize the logs tab.
-        
-        Args:
-            parent: Parent frame for this tab.
-            manager: BackupManager instance.
-            root: Root window for scheduling updates.
-        """
         self.parent = parent
         self.manager = manager
         self.root = root
@@ -43,8 +25,6 @@ class LogsTab:
         self._create_toolbar()
         self._create_log_viewer()
         self._refresh_log_selector()
-        
-        # Start auto-refresh
         self._auto_refresh()
 
     def _create_toolbar(self):

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Backup operations tab UI and logic.
-
-This module implements the backup operations tab where users can
-start backups, view progress, and manage auto-run settings.
-"""
+"""Backup operations tab UI and logic."""
 
 import threading
 import time
@@ -15,23 +11,9 @@ from ui_components import create_tooltip
 
 
 class BackupTab:
-    """Backup operations tab component.
-    
-    This class handles:
-    - Displaying backup sets with progress bars
-    - Starting and monitoring backups
-    - Auto-run scheduling
-    - Status updates
-    """
+    """Backup operations tab component."""
 
     def __init__(self, parent: ttk.Frame, manager: BackupManager, root):
-        """Initialize the backup tab.
-        
-        Args:
-            parent: Parent frame for this tab.
-            manager: BackupManager instance.
-            root: Root window for scheduling updates.
-        """
         self.parent = parent
         self.manager = manager
         self.root = root
@@ -46,7 +28,6 @@ class BackupTab:
         self.auto_run_timer = None
         self.initial_delay_timer = None
         
-        # Status bar reference (set by main window)
         self.status_bar = None
 
     def setup(self):
@@ -54,26 +35,22 @@ class BackupTab:
         self._create_toolbar()
         self._create_backup_list()
         self._refresh_backup_list()
-        
-        # Start status update loop
         self._update_status()
         
-        # Start auto-run if enabled
         if self.auto_run_enabled.get():
             self._toggle_auto_run()
 
     def _create_toolbar(self):
-        """Create the button toolbar with modern styling."""
+        """Create the button toolbar."""
         btn_frame = ttk.Frame(self.parent)
         btn_frame.pack(fill='x', padx=10, pady=10)
 
-        # Modern styled buttons with colors
         if HAS_TTK_BOOTSTRAP:
             start_btn = ttk.Button(
                 btn_frame,
                 text="▶ Start All Now",
                 command=self._start_all,
-                bootstyle="success",  # Green button
+                bootstyle="success",
                 width=18
             )
             start_btn.pack(side='left', padx=5)
@@ -83,7 +60,7 @@ class BackupTab:
                 btn_frame,
                 text="⚡ Run Once",
                 command=self._run_once,
-                bootstyle="info",  # Blue button
+                bootstyle="info",
                 width=15
             )
             run_once_btn.pack(side='left', padx=5)
@@ -93,7 +70,7 @@ class BackupTab:
                 btn_frame,
                 text="🔍 Dry Run",
                 variable=self.dry_run_var,
-                bootstyle="warning-round-toggle"  # Orange toggle
+                bootstyle="warning-round-toggle"
             )
             dry_run_chk.pack(side='left', padx=5)
             create_tooltip(dry_run_chk, "Simulate backups without copying files")

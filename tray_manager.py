@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""System tray icon management.
-
-This module handles creating and managing the system tray icon
-for the RClone Backup Manager application.
-"""
+"""System tray icon management."""
 
 import threading
 from typing import Callable, Optional, TYPE_CHECKING
@@ -20,14 +16,7 @@ if TYPE_CHECKING:
 
 
 class TrayManager:
-    """Manages system tray icon operations.
-    
-    This class handles:
-    - Creating the tray icon
-    - Setting up the tray menu
-    - Running the tray icon in a background thread
-    - Stopping the tray icon
-    """
+    """Manages system tray icon operations."""
 
     def __init__(
         self,
@@ -35,13 +24,6 @@ class TrayManager:
         on_start: Callable,
         on_quit: Callable
     ):
-        """Initialize the tray manager.
-        
-        Args:
-            on_show: Callback to show the main window.
-            on_start: Callback to start backups.
-            on_quit: Callback to quit the application.
-        """
         self.on_show = on_show
         self.on_start = on_start
         self.on_quit = on_quit
@@ -49,35 +31,24 @@ class TrayManager:
         self._running = False
 
     def create_icon(self) -> Optional['pystray.Icon']:
-        """Create the system tray icon.
-        
-        Returns:
-            pystray.Icon instance or None if tray not available.
-        """
+        """Create the system tray icon."""
         if not HAS_TRAY:
             return None
 
-        # Create icon image with a modern look
+        # Create icon image
         img = Image.new('RGBA', (64, 64), color=(0, 0, 0, 0))
         draw = ImageDraw.Draw(img)
         
-        # Draw a rounded rectangle (simulated) or circle background
-        # Gradient-like effect (simple solid color for now, but distinct)
-        draw.ellipse((4, 4, 60, 60), fill=(13, 110, 253)) # Bootstrap Primary Blue
+        # Draw background circle (Bootstrap Primary Blue)
+        draw.ellipse((4, 4, 60, 60), fill=(13, 110, 253))
         
-        # Draw text "RB" in white, centered
-        # Simple font handling
-        draw.text((14, 18), "RB", fill=(255, 255, 255), font_size=24) # Requires Pillow >= 9.2.0 for font_size, else default
-        
-        # Fallback for older Pillow if needed, but requirements said >=9.0.0
-        # If font_size param fails, we might need ImageFont.truetype, but let's keep it simple for now
-        # Actually, draw.text with font_size might not work on all versions without ImageFont object.
-        # Let's use a safer approach with default font or load a font if possible.
-        # Since we can't easily load a font without path, we'll stick to simple text or shapes.
-        
-        # Let's draw a simple "cloud" or "sync" shape instead of text if possible, or just cleaner text.
-        # Drawing a simple sync arrow is hard. Let's stick to the Circle + Text but make it cleaner.
-
+        # Draw text "RB"
+        # Note: font_size requires Pillow >= 9.2.0
+        try:
+            draw.text((14, 18), "RB", fill=(255, 255, 255), font_size=24)
+        except TypeError:
+            # Fallback for older Pillow versions
+            draw.text((20, 24), "RB", fill=(255, 255, 255))
 
         # Create menu
         menu = pystray.Menu(

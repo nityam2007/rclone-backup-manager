@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Configuration management for RClone Backup Manager.
-
-This module handles loading and saving configuration files,
-providing default configurations, and managing JSON operations.
-"""
+"""Configuration management."""
 
 import json
 from typing import Dict
@@ -12,11 +8,7 @@ from constants import CFG_FILE, logger
 
 
 def get_default_config() -> Dict:
-    """Return default configuration structure.
-    
-    Returns:
-        Dict containing default backup sets, settings, and app settings.
-    """
+    """Return default configuration structure."""
     return {
         "backup_sets": [],
         "settings": {
@@ -35,14 +27,7 @@ def get_default_config() -> Dict:
 
 
 def load_config() -> Dict:
-    """Load configuration from JSON file.
-    
-    Creates default configuration if file doesn't exist.
-    Ensures all required sections are present.
-    
-    Returns:
-        Dict containing the loaded configuration.
-    """
+    """Load configuration from JSON file."""
     if not CFG_FILE.exists():
         default_config = get_default_config()
         save_config(default_config)
@@ -81,14 +66,7 @@ def load_config() -> Dict:
 
 
 def save_config(config: Dict) -> bool:
-    """Save configuration to JSON file.
-    
-    Args:
-        config: Configuration dictionary to save.
-        
-    Returns:
-        True if save was successful, False otherwise.
-    """
+    """Save configuration to JSON file."""
     try:
         with CFG_FILE.open('w', encoding='utf-8') as f:
             json.dump(config, f, indent=2)

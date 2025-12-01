@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Reusable UI components and helper functions.
-
-This module provides common UI widgets, dialogs, and helper functions
-used throughout the application following Google Python style guide.
-"""
+"""Reusable UI components and helper functions."""
 
 import platform
 import subprocess
@@ -24,31 +20,16 @@ if TYPE_CHECKING:
 
 
 def create_tooltip(widget, text: str):
-    """Create a tooltip for a widget.
-    
-    Args:
-        widget: The widget to attach the tooltip to.
-        text: The tooltip text.
-    """
+    """Create a tooltip for a widget."""
     if HAS_TTK_BOOTSTRAP:
         from ttkbootstrap.tooltip import ToolTip
         ToolTip(widget, text=text)
     else:
-        # Simple fallback or no-op for now as standard tkinter doesn't have built-in tooltip
-        # We could implement a custom one, but for simplicity let's skip it or use a basic bind
         pass
 
 
 def create_menu_bar(root, callbacks: Dict):
-    """Create the application menu bar.
-    
-    Args:
-        root: Root tkinter window.
-        callbacks: Dictionary of callback functions for menu items.
-        
-    Returns:
-        Menu bar widget.
-    """
+    """Create the application menu bar."""
     import tkinter as tk
     menubar = tk.Menu(root)
     
@@ -96,15 +77,7 @@ def create_menu_bar(root, callbacks: Dict):
 
 
 def create_status_bar(parent, initial_text: str = "Ready") -> Tuple:
-    """Create a status bar with main status and backup count labels.
-    
-    Args:
-        parent: Parent widget.
-        initial_text: Initial status text.
-        
-    Returns:
-        Tuple of (status_label, backup_count_label).
-    """
+    """Create a status bar with main status and backup count labels."""
     import tkinter as tk
     status_frame = ttk.Frame(parent, relief=tk.SUNKEN, borderwidth=1)
     status_frame.pack(side=tk.BOTTOM, fill=tk.X)
@@ -129,24 +102,16 @@ def create_status_bar(parent, initial_text: str = "Ready") -> Tuple:
 
 
 def show_custom_dialog(parent, title: str, message: str):
-    """Show a custom dialog with scrollable text.
-    
-    Args:
-        parent: Parent window.
-        title: Dialog title.
-        message: Message to display.
-    """
+    """Show a custom dialog with scrollable text."""
     import tkinter as tk
     dialog = tk.Toplevel(parent)
     dialog.title(title)
     dialog.transient(parent)
     dialog.grab_set()
     
-    # Create main frame with padding
     frame = ttk.Frame(dialog, padding=20)
     frame.pack(fill=tk.BOTH, expand=True)
     
-    # Create scrolled text widget
     text_widget = scrolledtext.ScrolledText(
         frame,
         wrap=tk.WORD,
@@ -157,11 +122,9 @@ def show_custom_dialog(parent, title: str, message: str):
     )
     text_widget.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
     
-    # Insert message
     text_widget.insert('1.0', message)
     text_widget.config(state=tk.DISABLED)
     
-    # OK button
     btn_frame = ttk.Frame(frame)
     btn_frame.pack(fill=tk.X)
     ttk.Button(
@@ -171,25 +134,18 @@ def show_custom_dialog(parent, title: str, message: str):
         width=10
     ).pack(side=tk.RIGHT)
     
-    # Center dialog on parent window
     dialog.update_idletasks()
     x = parent.winfo_x() + (parent.winfo_width() - dialog.winfo_width()) // 2
     y = parent.winfo_y() + (parent.winfo_height() - dialog.winfo_height()) // 2
     dialog.geometry(f"+{x}+{y}")
     
-    # Bind Escape key to close
     dialog.bind('<Escape>', lambda e: dialog.destroy())
 
 
 def show_about_dialog(parent):
-    """Show the about dialog.
-    
-    Args:
-        parent: Parent window.
-    """
+    """Show the about dialog."""
     import tkinter as tk
     def get_rclone_version():
-        """Get rclone version."""
         try:
             result = subprocess.run(
                 ['rclone', 'version'],
@@ -213,14 +169,13 @@ Made with ❤️ by {AUTHOR}
 
 KEY FEATURES:
 • Multi-threaded parallel backup operations
-• Visual configuration editor (no manual JSON editing)
-• Real-time progress tracking with detailed logs
+• Visual configuration editor
+• Real-time progress tracking
 • Last backup timestamp tracking
 • Auto-run scheduler (every 5 minutes)
-• System tray support (Windows & Ubuntu/GNOME)
-• Dry run mode for testing backups
+• System tray support
+• Dry run mode
 • Cross-platform (Windows & Linux)
-• Modular architecture for easy maintenance
 
 SYSTEM INFORMATION:
 Platform: {platform.system()} {platform.release()}
@@ -237,18 +192,14 @@ Report Issues: {GITHUB_REPO}/issues
 Documentation: {GITHUB_REPO}#readme
 
 LICENSE:
-Public Domain (Unlicense)
-Use freely without restrictions.
+Source Available License
+Free for personal use. No commercial redistribution.
 """
     show_custom_dialog(parent, "About", about_text)
 
 
 def show_documentation_dialog(parent):
-    """Show the documentation dialog.
-    
-    Args:
-        parent: Parent window.
-    """
+    """Show the documentation dialog."""
     doc_text = f"""rclone Backup Manager - Quick Guide
 
 BACKUP OPERATIONS:
@@ -276,11 +227,7 @@ TIPS:
 
 
 def show_shortcuts_dialog(parent):
-    """Show the keyboard shortcuts dialog.
-    
-    Args:
-        parent: Parent window.
-    """
+    """Show the keyboard shortcuts dialog."""
     shortcuts_text = """Keyboard Shortcuts
 
 F5           Reload Configuration

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Configuration editor tab UI and logic.
-
-This module implements the configuration editor tab where users can
-add, edit, and delete backup sets and modify settings.
-"""
+"""Configuration editor tab UI and logic."""
 
 from typing import Callable
 
@@ -34,7 +30,7 @@ class ConfigTab:
         self._load_config_to_form()
 
     def _create_toolbar(self):
-        """Create the toolbar with modern styled buttons."""
+        """Create the toolbar."""
         import tkinter as tk
         toolbar = ttk.Frame(self.parent)
         toolbar.pack(fill='x', padx=10, pady=10)
