@@ -20,6 +20,14 @@ I built this because while **rclone** is amazing, using it via command line or s
 - **Real-time Logs**: See exactly what files are being transferred.
 - **Configurable**: Easy JSON-based configuration managed through the UI.
 
+## Screenshots
+
+*(Screenshots coming soon!)*
+
+## Building from Source
+
+Want to build the executable yourself? Check out [BUILD.md](BUILD.md).
+
 ## Prerequisites
 
 1.  **Python 3.7+**
