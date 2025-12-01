@@ -54,4 +54,19 @@ I built this because while **rclone** is amazing, using it via command line or s
 
 ## License
 
-Public Domain. Use it however you want.
+Source Available License. Free for personal use.
+
+## Credits
+
+Built with ❤️ by **Nityam**.
+
+Special thanks to the AI assistants that helped write the code and docs:
+- **Antigravity** (Google DeepMind)
+- **Gemini** (Google)
+- **Claude** (Anthropic)
+- **GPT** (OpenAI)
+
+And the tools that made it possible:
+- **VSCode**
+- **Python**
+

@@ -162,38 +162,33 @@ def show_about_dialog(parent):
     
     about_text = f"""{APP_NAME} v{VERSION}
 
-A beautiful, production-ready cross-platform GUI for managing rclone backups
-with modern tabbed interface and automated scheduling.
+Hi there! 👋
 
-Made with ❤️ by {AUTHOR}
+This is a simple, modern tool to help you manage your rclone backups without needing to touch the command line.
 
-KEY FEATURES:
-• Multi-threaded parallel backup operations
-• Visual configuration editor
-• Real-time progress tracking
-• Last backup timestamp tracking
-• Auto-run scheduler (every 5 minutes)
-• System tray support
-• Dry run mode
-• Cross-platform (Windows & Linux)
+Built with ❤️ by {AUTHOR}.
 
-SYSTEM INFORMATION:
+FEATURES:
+• Visual & Easy: No more manual JSON editing.
+• Set & Forget: Auto-run scheduler keeps your files safe.
+• Peace of Mind: Real-time logs so you know it's working.
+• Stay Focused: Minimizes to tray to stay out of your way.
+
+SYSTEM INFO:
 Platform: {platform.system()} {platform.release()}
-Python: {sys.version.split()[0]}
 rclone: {get_rclone_version()}
 
-CONFIG & LOGS:
+FILES:
 Config: {CFG_FILE.name}
 Logs: {LOG_FILE.name}
 
 LINKS:
 GitHub: {GITHUB_REPO}
 Report Issues: {GITHUB_REPO}/issues
-Documentation: {GITHUB_REPO}#readme
 
 LICENSE:
-Source Available License
-Free for personal use. No commercial redistribution.
+Source Available License.
+Free for personal use.
 """
     show_custom_dialog(parent, "About", about_text)
 
