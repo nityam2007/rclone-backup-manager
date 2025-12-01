@@ -1,122 +1,32 @@
-# Quick Start Guide - RClone Backup Manager
+# Quick Start
 
-Get up and running in 5 minutes! 🚀
+Here is how to get your backups running quickly.
 
-## Step 1: Install rclone
-
-### Linux
-```bash
-sudo apt install rclone  # Debian/Ubuntu
-# or
-curl https://rclone.org/install.sh | sudo bash
-```
-
-### Windows
-Download from [rclone.org/downloads](https://rclone.org/downloads/) and add to PATH.
-
-## Step 2: Configure rclone
-
+## 1. Setup rclone
+If you haven't already, install rclone and set up a remote.
 ```bash
 rclone config
 ```
+Follow the prompts to add Google Drive, S3, or whatever cloud storage you use. Remember the name you give it (e.g., `gdrive`).
 
-Choose your cloud provider (Google Drive, Dropbox, etc.) and follow the prompts.
-
-**Example for Google Drive:**
-1. Type `n` for new remote
-2. Name it `gdrive`
-3. Choose `drive` for Google Drive
-4. Follow authentication steps
-5. Type `q` to quit
-
-## Step 3: Install Python Dependencies
-
+## 2. Install App
 ```bash
-# Clone the repository
-git clone https://github.com/Nityam2007/rclone-backup-manager.git
-cd rclone-backup-manager
-
-# Install dependencies
-pip3 install -r requirements.txt
-
-# Linux only: Install tkinter if needed
-sudo apt install python3-tk  # Debian/Ubuntu
+pip install -r requirements.txt
+python main.py
 ```
+*Linux users: You might need `sudo apt install python3-tk`.*
 
-## Step 4: Run the Application
+## 3. Add Backup
+1. Open the **Configuration** tab.
+2. Click **Add New Backup**.
+3. **Local**: Pick the folder you want to backup.
+4. **Remote**: Enter your rclone path (e.g., `gdrive:MyBackups`).
+5. Click **Add** then **Save**.
 
-```bash
-python3 backup_gui.py
-```
+## 4. Run
+Go to the **Backups** tab and click **Start All Now**.
+Use **Dry Run** first if you want to see what will happen without actually copying files.
 
-## Step 5: Add Your First Backup
-
-1. Click the **Configuration** tab
-2. Click **Add New Backup**
-3. Fill in:
-   - **Name**: "My Documents"
-   - **Local Folder**: Click Browse → Select your Documents folder
-   - **Remote Path**: `gdrive:Backups/Documents` (use your remote name from Step 2)
-4. Click **Add**
-5. Click **Save All Changes**
-
-## Step 6: Test Your Backup
-
-1. Go to **Backups** tab
-2. ✅ Check **Dry Run** (this tests without copying)
-3. Click **Start All Now**
-4. Watch the progress bar!
-5. Check the **Logs** tab to see details
-
-## Step 7: Enable Auto-Run (Optional)
-
-1. Uncheck **Dry Run**
-2. ✅ Check **Auto-Run Every 5 Min**
-3. ✅ Check **Minimize to Tray**
-4. Minimize the window - it will run in the background!
-
----
-
-## Common Remote Path Examples
-
-| Cloud Provider | Remote Name | Example Path |
-|---------------|-------------|--------------|
-| Google Drive | `gdrive` | `gdrive:Backups/MyFolder` |
-| Dropbox | `dropbox` | `dropbox:Backups/MyFolder` |
-| OneDrive | `onedrive` | `onedrive:Backups/MyFolder` |
-| Amazon S3 | `s3` | `s3:mybucket/backups` |
-| Local Disk | N/A | `/mnt/external/backups` |
-
----
-
-## Troubleshooting
-
-### "rclone not found"
-```bash
-# Check if rclone is installed
-rclone version
-
-# If not, install it (see Step 1)
-```
-
-### "No module named 'tkinter'"
-```bash
-# Linux
-sudo apt install python3-tk
-```
-
-### "Permission denied"
-```bash
-# Make script executable (Linux)
-chmod +x backup_gui.py
-```
-
----
-
-## Next Steps
-
-- 📖 Read the full [README.md](README.md)
-- 🔧 Check [INSTALL.md](INSTALL.md) for detailed installation
-- 🐛 Report issues on [GitHub](https://github.com/Nityam2007/rclone-backup-manager/issues)
-
-**Happy backing up! 🎉**
+## Auto-Run
+Check **Auto-Run** to have it run every 5 minutes in the background. You can minimize the app to the tray.
+*(Note: Adding the app to system startup is currently a manual process)*
