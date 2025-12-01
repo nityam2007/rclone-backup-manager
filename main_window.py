@@ -214,12 +214,24 @@ class MainWindow:
 
         # Check if window is minimized (iconic)
         if self.root.state() == 'iconic':
-            if self.minimize_to_tray_enabled.get():
-                if HAS_TRAY and self.tray_manager and not self.is_minimized_to_tray:
-                    # Hide the window (remove from taskbar)
-                    self.root.withdraw()
-                    self.is_minimized_to_tray = True
-                    self.tray_manager.run()
+            self._minimize_to_tray()
+        else:
+            # On some Linux WMs, state might not be updated immediately
+            self.root.after(100, self._check_minimize_state)
+
+    def _check_minimize_state(self):
+        """Check if window state became iconic after a delay."""
+        if self.root.state() == 'iconic':
+            self._minimize_to_tray()
+
+    def _minimize_to_tray(self):
+        """Perform minimize to tray action."""
+        if self.minimize_to_tray_enabled.get():
+            if HAS_TRAY and self.tray_manager and not self.is_minimized_to_tray:
+                # Hide the window (remove from taskbar)
+                self.root.withdraw()
+                self.is_minimized_to_tray = True
+                self.tray_manager.run()
 
     def _start_minimized(self):
         """Start the application minimized to tray."""

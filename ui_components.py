@@ -104,7 +104,16 @@ def create_status_bar(parent, initial_text: str = "Ready") -> Tuple:
 def show_custom_dialog(parent, title: str, message: str):
     """Show a custom dialog with scrollable text."""
     import tkinter as tk
-    dialog = tk.Toplevel(parent)
+    
+    if HAS_TTK_BOOTSTRAP:
+        from ttkbootstrap import Toplevel
+        from ttkbootstrap.scrolled import ScrolledText
+        dialog = Toplevel(parent)
+    else:
+        dialog = tk.Toplevel(parent)
+        from tkinter import scrolledtext
+        ScrolledText = scrolledtext.ScrolledText
+
     dialog.title(title)
     dialog.transient(parent)
     dialog.grab_set()
@@ -112,7 +121,7 @@ def show_custom_dialog(parent, title: str, message: str):
     frame = ttk.Frame(dialog, padding=20)
     frame.pack(fill=tk.BOTH, expand=True)
     
-    text_widget = scrolledtext.ScrolledText(
+    text_widget = ScrolledText(
         frame,
         wrap=tk.WORD,
         font=('TkDefaultFont', 10),
@@ -123,21 +132,50 @@ def show_custom_dialog(parent, title: str, message: str):
     text_widget.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
     
     text_widget.insert('1.0', message)
-    text_widget.config(state=tk.DISABLED)
+    text_widget.configure(state=tk.DISABLED)
+    
+    # Mousewheel support
+    def _on_mousewheel(event):
+        if platform.system() == 'Windows':
+            text_widget.yview_scroll(int(-1*(event.delta/120)), "units")
+        elif event.num == 4:
+            text_widget.yview_scroll(-1, "units")
+        elif event.num == 5:
+            text_widget.yview_scroll(1, "units")
+
+    if platform.system() == 'Linux':
+        text_widget.bind('<Button-4>', _on_mousewheel)
+        text_widget.bind('<Button-5>', _on_mousewheel)
+    else:
+        text_widget.bind('<MouseWheel>', _on_mousewheel)
     
     btn_frame = ttk.Frame(frame)
     btn_frame.pack(fill=tk.X)
-    ttk.Button(
-        btn_frame,
-        text="OK",
-        command=dialog.destroy,
-        width=10
-    ).pack(side=tk.RIGHT)
+    
+    if HAS_TTK_BOOTSTRAP:
+        ttk.Button(
+            btn_frame,
+            text="OK",
+            command=dialog.destroy,
+            width=10,
+            bootstyle="primary"
+        ).pack(side=tk.RIGHT)
+    else:
+        ttk.Button(
+            btn_frame,
+            text="OK",
+            command=dialog.destroy,
+            width=10
+        ).pack(side=tk.RIGHT)
     
     dialog.update_idletasks()
-    x = parent.winfo_x() + (parent.winfo_width() - dialog.winfo_width()) // 2
-    y = parent.winfo_y() + (parent.winfo_height() - dialog.winfo_height()) // 2
-    dialog.geometry(f"+{x}+{y}")
+    # Center dialog
+    try:
+        x = parent.winfo_x() + (parent.winfo_width() - dialog.winfo_width()) // 2
+        y = parent.winfo_y() + (parent.winfo_height() - dialog.winfo_height()) // 2
+        dialog.geometry(f"+{x}+{y}")
+    except Exception:
+        pass
     
     dialog.bind('<Escape>', lambda e: dialog.destroy())
 
