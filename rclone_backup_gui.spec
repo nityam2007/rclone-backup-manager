@@ -3,7 +3,7 @@ from PyInstaller.utils.hooks import collect_all
 
 datas = []
 binaries = []
-hiddenimports = ['ttkbootstrap', 'pystray', 'PIL', 'PIL.Image', 'PIL.ImageDraw']
+hiddenimports = ['ttkbootstrap', 'pystray', 'PIL', 'PIL.Image', 'PIL.ImageDraw', 'PIL._tkinter_finder']
 
 # Collect all ttkbootstrap data (themes, etc.)
 tmp_ret = collect_all('ttkbootstrap')
