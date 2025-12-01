@@ -21,10 +21,8 @@ class BackupTab:
         
         # Variables
         import tkinter as tk
-        self.dry_run_var = tk.BooleanVar(value=False)
-        self.auto_run_enabled = tk.BooleanVar(
-            value=manager.config.get('app_settings', {}).get('auto_run_enabled', False)
-        )
+        self.auto_run_timer = None
+        self.initial_delay_timer = None
         self.auto_run_timer = None
         self.initial_delay_timer = None
         
@@ -66,26 +64,17 @@ class BackupTab:
             run_once_btn.pack(side='left', padx=5)
             create_tooltip(run_once_btn, "Run all backups once and notify on completion")
 
-            dry_run_chk = ttk.Checkbutton(
-                btn_frame,
-                text="🔍 Dry Run",
-                variable=self.dry_run_var,
-                bootstyle="warning-round-toggle"
-            )
-            dry_run_chk.pack(side='left', padx=5)
-            create_tooltip(dry_run_chk, "Simulate backups without copying files")
-            
             ttk.Separator(btn_frame, orient='vertical').pack(side='left', fill='y', padx=10)
 
-            auto_run_chk = ttk.Checkbutton(
+            minimize_btn = ttk.Button(
                 btn_frame,
-                text="⏰ Auto-Run Every 5 Min",
-                variable=self.auto_run_enabled,
-                command=self._toggle_auto_run,
-                bootstyle="primary-round-toggle"  # Blue toggle
+                text="⬇ Minimize to Tray",
+                command=self._minimize_app,
+                bootstyle="secondary",
+                width=18
             )
-            auto_run_chk.pack(side='left', padx=5)
-            create_tooltip(auto_run_chk, "Automatically run backups every 5 minutes")
+            minimize_btn.pack(side='left', padx=5)
+            create_tooltip(minimize_btn, "Minimize application to system tray")
         else:
             # Fallback to standard buttons
             import tkinter as tk
@@ -101,19 +90,12 @@ class BackupTab:
                 command=self._run_once
             ).pack(side=tk.LEFT, padx=2)
 
-            ttk.Checkbutton(
-                btn_frame,
-                text="Dry Run",
-                variable=self.dry_run_var
-            ).pack(side=tk.LEFT, padx=2)
-
             ttk.Separator(btn_frame, orient=tk.VERTICAL).pack(side=tk.LEFT, fill=tk.Y, padx=5)
 
-            ttk.Checkbutton(
+            ttk.Button(
                 btn_frame,
-                text="Auto-Run Every 5 Min",
-                variable=self.auto_run_enabled,
-                command=self._toggle_auto_run
+                text="Minimize to Tray",
+                command=self._minimize_app
             ).pack(side=tk.LEFT, padx=2)
 
     def _create_backup_list(self):
@@ -274,7 +256,9 @@ class BackupTab:
             messagebox.showwarning("Already Running", "Backups are already in progress.")
             return
 
-        dry_run = self.dry_run_var.get()
+        app_settings = self.manager.config.get('app_settings', {})
+        dry_run = app_settings.get('dry_run', False)
+        
         self.manager.start_all(dry_run=dry_run)
         if self.status_bar:
             self.status_bar.config(text="🚀 Backups started...")
@@ -285,7 +269,9 @@ class BackupTab:
             messagebox.showwarning("Already Running", "Backups are already in progress.")
             return
 
-        dry_run = self.dry_run_var.get()
+        app_settings = self.manager.config.get('app_settings', {})
+        dry_run = app_settings.get('dry_run', False)
+        
         self.manager.start_all(dry_run=dry_run)
 
         # Monitor in background
@@ -310,14 +296,18 @@ class BackupTab:
 
         threading.Thread(target=monitor, daemon=True).start()
 
+    def _minimize_app(self):
+        """Minimize application to tray."""
+        if hasattr(self.root, 'iconify'):
+            self.root.iconify()
+
     def _toggle_auto_run(self):
         """Toggle auto-run timer."""
-        # Save setting to config
-        self._save_auto_run_setting()
+        app_settings = self.manager.config.get('app_settings', {})
+        auto_run_enabled = app_settings.get('auto_run_enabled', False)
 
-        if self.auto_run_enabled.get():
+        if auto_run_enabled:
             # Get interval from config
-            app_settings = self.manager.config.get('app_settings', {})
             interval_min = app_settings.get('auto_run_interval_min', 5)
 
             logger.info(f"Auto-run enabled: Running every {interval_min} minutes")
@@ -340,12 +330,8 @@ class BackupTab:
 
     def _save_auto_run_setting(self):
         """Save auto-run setting to config."""
-        from config_manager import save_config
-        try:
-            self.manager.config['app_settings']['auto_run_enabled'] = self.auto_run_enabled.get()
-            save_config(self.manager.config)
-        except Exception as e:
-            logger.error(f"Failed to save auto-run setting: {e}")
+        # Deprecated: Settings are now saved in ConfigTab
+        pass
 
     def _start_auto_run_cycle(self):
         """Start the regular auto-run cycle."""

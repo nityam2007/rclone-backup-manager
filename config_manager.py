@@ -22,6 +22,7 @@ def get_default_config() -> Dict:
             "start_minimized": False,
             "auto_run_enabled": False,
             "auto_run_interval_min": 5,
+            "dry_run": False,
             "theme": "cosmo"
         }
     }
@@ -60,6 +61,9 @@ def load_config() -> Dict:
         # Ensure new keys exist
         if 'start_minimized' not in config['app_settings']:
             config['app_settings']['start_minimized'] = False
+            
+        if 'dry_run' not in config['app_settings']:
+            config['app_settings']['dry_run'] = False
         
         # Ensure theme exists in app_settings
         if 'theme' not in config['app_settings']:

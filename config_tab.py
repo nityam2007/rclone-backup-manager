@@ -22,6 +22,8 @@ class ConfigTab:
         self.checkers_var = tk.StringVar(value="8")
         self.retries_var = tk.StringVar(value="3")
         self.start_minimized_var = tk.BooleanVar(value=False)
+        self.dry_run_var = tk.BooleanVar(value=False)
+        self.auto_run_var = tk.BooleanVar(value=False)
 
     def setup(self):
         """Setup the configuration tab UI."""
@@ -99,6 +101,20 @@ class ConfigTab:
             bootstyle="round-toggle" if HAS_TTK_BOOTSTRAP else ""
         ).grid(row=0, column=6, sticky='w', padx=(20, 5))
 
+        ttk.Checkbutton(
+            settings_grid,
+            text="Dry Run",
+            variable=self.dry_run_var,
+            bootstyle="warning-round-toggle" if HAS_TTK_BOOTSTRAP else ""
+        ).grid(row=0, column=7, sticky='w', padx=(20, 5))
+
+        ttk.Checkbutton(
+            settings_grid,
+            text="Auto-Run (5 min)",
+            variable=self.auto_run_var,
+            bootstyle="primary-round-toggle" if HAS_TTK_BOOTSTRAP else ""
+        ).grid(row=0, column=8, sticky='w', padx=(20, 5))
+
     def _create_backup_list(self):
         """Create the backup sets list editor."""
         import tkinter as tk
@@ -149,6 +165,8 @@ class ConfigTab:
 
         app_settings = config.get('app_settings', {})
         self.start_minimized_var.set(app_settings.get('start_minimized', False))
+        self.dry_run_var.set(app_settings.get('dry_run', False))
+        self.auto_run_var.set(app_settings.get('auto_run_enabled', False))
 
         for widget in self.config_items_frame.winfo_children():
             widget.destroy()
@@ -322,6 +340,8 @@ class ConfigTab:
                 'theme': 'cosmo'
             })
             app_settings['start_minimized'] = self.start_minimized_var.get()
+            app_settings['dry_run'] = self.dry_run_var.get()
+            app_settings['auto_run_enabled'] = self.auto_run_var.get()
 
             config = {
                 'backup_sets': backup_sets,
