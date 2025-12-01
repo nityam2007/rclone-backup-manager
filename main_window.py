@@ -202,17 +202,19 @@ class MainWindow:
             subprocess.Popen(['xdg-open', str(LOG_FILE)])
 
     def _on_minimize(self, event):
-        """Handle window minimize event.
-        
-        Args:
-            event: Event object.
-        """
-        # Only respond to iconify events
-        if event.type == "18" and self.minimize_to_tray_enabled.get():  # 18 is Unmap event type
-            if HAS_TRAY and self.tray_manager and not self.is_minimized_to_tray:
-                self.root.withdraw()
-                self.is_minimized_to_tray = True
-                self.tray_manager.run()
+        """Handle window minimize event."""
+        # Ensure event is for the main window
+        if event.widget != self.root:
+            return
+
+        # Check if window is minimized (iconic)
+        if self.root.state() == 'iconic':
+            if self.minimize_to_tray_enabled.get():
+                if HAS_TRAY and self.tray_manager and not self.is_minimized_to_tray:
+                    # Hide the window (remove from taskbar)
+                    self.root.withdraw()
+                    self.is_minimized_to_tray = True
+                    self.tray_manager.run()
 
     def _restore_from_tray(self, icon=None, item=None):
         """Restore window from tray.
