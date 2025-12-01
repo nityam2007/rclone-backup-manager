@@ -93,7 +93,7 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            # RClone Backup Manager v2.1.0
+            # RClone Backup Manager v2.1.1
 
             🚀 **Major Update: Modern UI & Modular Core**
 
