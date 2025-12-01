@@ -8,59 +8,59 @@ on:
 
 permissions:
   contents: write
-  
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
-      
+
       - name: Build executable
         run: |
-          pyinstaller rclone_backup_gui.spec
-      
+          pyinstaller rclone_backup.spec
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: rclone-backup-manager-linux
-          path: dist/backup_gui/
+          path: dist/rclone-backup-manager/
 
   build-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
-      
+
       - name: Build executable
         run: |
-          pyinstaller rclone_backup_gui.spec
-      
+          pyinstaller rclone_backup.spec
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: rclone-backup-manager-windows
-          path: dist/backup_gui/
+          path: dist/rclone-backup-manager/
 
   release:
     needs: [build-linux, build-windows]
@@ -72,18 +72,18 @@ jobs:
         with:
           name: rclone-backup-manager-linux
           path: linux-build
-      
+
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
           name: rclone-backup-manager-windows
           path: windows-build
-      
+
       - name: Create release archives
         run: |
           cd linux-build && zip -r ../rclone-backup-manager-linux.zip . && cd ..
           cd windows-build && zip -r ../rclone-backup-manager-windows.zip . && cd ..
-      
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
@@ -93,31 +93,26 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            # RClone Backup Manager v2.0.0
-            
-            🎉 **First Official Release**
-            
-            ## Features
-            - ✨ Beautiful cross-platform GUI for rclone backups
-            - 📊 Modern tabbed interface with real-time progress tracking
-            - ⚙️ Visual configuration editor (no manual JSON editing)
-            - 🔔 System tray support with minimize to tray
-            - ⏰ Auto-run mode - backups every 5 minutes
-            - 📅 Last backup timestamp tracking
-            - 📝 Comprehensive logging with auto-refresh
-            - 🧪 Dry run mode for testing backups
-            - ⚡ Multi-threaded parallel operations
-            - 📚 Complete documentation and setup guides
-            
+            # RClone Backup Manager v2.1.0
+
+            🚀 **Major Update: Modern UI & Modular Core**
+
+            ## New Features
+            - 🎨 **Modern Interface**: Complete redesign with `ttkbootstrap` (Light/Dark themes).
+            - 🧩 **Modular Architecture**: Refactored for better stability and maintenance.
+            - 🖥️ **System Tray**: Native tray integration with toggle support.
+            - ⚡ **Performance**: Improved threading and status tracking.
+            - 📝 **Human-Readable Docs**: Simplified documentation for everyone.
+
             ## Downloads
             - **Linux**: `rclone-backup-manager-linux.zip`
             - **Windows**: `rclone-backup-manager-windows.zip`
-            
+
             ## Installation
-            1. Download the appropriate file for your OS
-            2. Extract the archive
-            3. Run the executable (`backup_gui` on Linux, `backup_gui.exe` on Windows)
-            
-            For detailed instructions, see the [README](https://github.com/nityam2007/rclone-backup-manager#readme)
+            1. Download the zip for your OS.
+            2. Extract it.
+            3. Run the executable (`rclone-backup-manager`).
+
+            *Note: Requires `rclone` to be installed on your system.*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
