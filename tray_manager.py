@@ -53,7 +53,7 @@ class TrayManager:
         # Create menu
         menu = pystray.Menu(
             pystray.MenuItem("Show", self.on_show, default=True),
-            pystray.MenuItem("Start Backups", self.on_start),
+            pystray.MenuItem("Start All Backups", self.on_start),
             pystray.Menu.SEPARATOR,
             pystray.MenuItem("Exit", self.on_quit)
         )

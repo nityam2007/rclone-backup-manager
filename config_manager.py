@@ -19,6 +19,7 @@ def get_default_config() -> Dict:
         },
         "app_settings": {
             "minimize_to_tray": True,
+            "start_minimized": False,
             "auto_run_enabled": False,
             "auto_run_interval_min": 5,
             "theme": "cosmo"
@@ -50,10 +51,15 @@ def load_config() -> Dict:
         if 'app_settings' not in config:
             config['app_settings'] = {
                 "minimize_to_tray": True,
+                "start_minimized": False,
                 "auto_run_enabled": False,
                 "auto_run_interval_min": 5,
                 "theme": "cosmo"
             }
+        
+        # Ensure new keys exist
+        if 'start_minimized' not in config['app_settings']:
+            config['app_settings']['start_minimized'] = False
         
         # Ensure theme exists in app_settings
         if 'theme' not in config['app_settings']:

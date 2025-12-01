@@ -63,6 +63,11 @@ class MainWindow:
         self._setup_ui()
         self._setup_tray()
 
+        # Check start minimized setting
+        if app_settings.get('start_minimized', False) and HAS_TRAY:
+            # We need to wait for the window to be ready before minimizing
+            self.root.after(100, self._start_minimized)
+
         # Event Bindings
         self.root.protocol("WM_DELETE_WINDOW", self._on_close)
         self.root.bind("<Unmap>", self._on_minimize)
@@ -215,6 +220,13 @@ class MainWindow:
                     self.root.withdraw()
                     self.is_minimized_to_tray = True
                     self.tray_manager.run()
+
+    def _start_minimized(self):
+        """Start the application minimized to tray."""
+        if HAS_TRAY and self.tray_manager:
+            self.root.withdraw()
+            self.is_minimized_to_tray = True
+            self.tray_manager.run()
 
     def _restore_from_tray(self, icon=None, item=None):
         """Restore window from tray.

@@ -21,6 +21,7 @@ class ConfigTab:
         self.transfers_var = tk.StringVar(value="8")
         self.checkers_var = tk.StringVar(value="8")
         self.retries_var = tk.StringVar(value="3")
+        self.start_minimized_var = tk.BooleanVar(value=False)
 
     def setup(self):
         """Setup the configuration tab UI."""
@@ -91,6 +92,13 @@ class ConfigTab:
         ttk.Label(settings_grid, text="Retries:").grid(row=0, column=4, sticky='w', padx=(20, 5))
         ttk.Entry(settings_grid, textvariable=self.retries_var, width=10).grid(row=0, column=5, sticky='w')
 
+        ttk.Checkbutton(
+            settings_grid,
+            text="Start Minimized",
+            variable=self.start_minimized_var,
+            bootstyle="round-toggle" if HAS_TTK_BOOTSTRAP else ""
+        ).grid(row=0, column=6, sticky='w', padx=(20, 5))
+
     def _create_backup_list(self):
         """Create the backup sets list editor."""
         import tkinter as tk
@@ -121,6 +129,9 @@ class ConfigTab:
         self.transfers_var.set(str(settings.get('transfers', 8)))
         self.checkers_var.set(str(settings.get('checkers', 8)))
         self.retries_var.set(str(settings.get('retries', 3)))
+
+        app_settings = config.get('app_settings', {})
+        self.start_minimized_var.set(app_settings.get('start_minimized', False))
 
         for widget in self.config_items_frame.winfo_children():
             widget.destroy()
@@ -290,8 +301,10 @@ class ConfigTab:
             app_settings = self.manager.config.get('app_settings', {
                 'minimize_to_tray': True,
                 'auto_run_enabled': False,
-                'auto_run_interval_min': 5
+                'auto_run_interval_min': 5,
+                'theme': 'cosmo'
             })
+            app_settings['start_minimized'] = self.start_minimized_var.get()
 
             config = {
                 'backup_sets': backup_sets,
