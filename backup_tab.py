@@ -35,7 +35,8 @@ class BackupTab:
         self._refresh_backup_list()
         self._update_status()
         
-        if self.auto_run_enabled.get():
+        app_settings = self.manager.config.get('app_settings', {})
+        if app_settings.get('auto_run_enabled', False):
             self._toggle_auto_run()
 
     def _create_toolbar(self):
