@@ -9,7 +9,7 @@ from typing import Dict, Optional, Callable
 from ..utils.constants import ttk, messagebox, HAS_TTK_BOOTSTRAP, COLORS, logger
 from ..core.backup_manager import BackupManager
 from .components import create_tooltip, ModernCard
-from .theme import ICONS, get_status_color
+from .theme import ICONS, get_status_color, get_font, SPACING
 
 
 class BackupTab:
@@ -51,7 +51,7 @@ class BackupTab:
         ttk.Label(
             title_frame,
             text=f"{ICONS['sync']} Backup Operations",
-            font=('Segoe UI', 14, 'bold')
+            font=get_font(14, 'bold')
         ).pack(side=tk.LEFT)
         
         # Action buttons
@@ -185,7 +185,7 @@ class BackupTab:
             ttk.Label(
                 empty_frame,
                 text=f"{ICONS['folder']} No backup sets configured",
-                font=('Segoe UI', 11),
+                font=get_font(11),
                 foreground=COLORS['muted']
             ).pack()
             
@@ -221,8 +221,8 @@ class BackupTab:
         ttk.Label(
             info_frame,
             text=f"{ICONS['folder']} Source:",
-            font=('Segoe UI', 9, 'bold')
-        ).grid(row=0, column=0, sticky=tk.W, padx=(0, 10))
+            font=get_font(9, 'bold')
+        ).grid(row=0, column=0, sticky=tk.W, padx=(0, SPACING['md']))
         
         source_label = ttk.Label(info_frame, text=local, foreground=COLORS['primary'])
         source_label.grid(row=0, column=1, sticky=tk.W)
@@ -231,8 +231,8 @@ class BackupTab:
         ttk.Label(
             info_frame,
             text=f"{ICONS['cloud']} Destination:",
-            font=('Segoe UI', 9, 'bold')
-        ).grid(row=1, column=0, sticky=tk.W, padx=(0, 10), pady=(5, 0))
+            font=get_font(9, 'bold')
+        ).grid(row=1, column=0, sticky=tk.W, padx=(0, SPACING['md']), pady=(SPACING['sm'], 0))
         
         dest_label = ttk.Label(info_frame, text=remote, foreground=COLORS['success'])
         dest_label.grid(row=1, column=1, sticky=tk.W, pady=(5, 0))
@@ -241,8 +241,8 @@ class BackupTab:
         ttk.Label(
             info_frame,
             text=f"{ICONS['clock']} Last Run:",
-            font=('Segoe UI', 9, 'bold')
-        ).grid(row=2, column=0, sticky=tk.W, padx=(0, 10), pady=(5, 0))
+            font=get_font(9, 'bold')
+        ).grid(row=2, column=0, sticky=tk.W, padx=(0, SPACING['md']), pady=(SPACING['sm'], 0))
         
         last_run = self.manager.get_last_run_time(name)
         last_run_label = ttk.Label(

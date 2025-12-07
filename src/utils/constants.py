@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 # Metadata
-VERSION = "2.2.0"
+VERSION = "2.3.0"
 APP_NAME = "RClone Backup Manager"
 GITHUB_REPO = "https://github.com/Nityam2007/rclone-backup-manager"
 AUTHOR = "Nityam"

@@ -93,30 +93,29 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            # RClone Backup Manager v2.1.2
+            # RClone Backup Manager v2.3.0
 
-            🚀 **Update: Enhanced Tray & Settings**
+            🎨 **Production-Ready UI Release**
 
-            ## New Features
-            - ⬇️ **Minimize to Tray**: Dedicated button in Backup tab and robust tray integration.
-            - 🚀 **Start Minimized**: Option to start the application silently in the tray.
-            - 🔒 **Single Instance**: Prevents multiple instances from running simultaneously.
-            - ⚙️ **Configurable Settings**: Dry Run and Auto-Run settings now persist in the Config tab.
-            - 🖱️ **Scrolling Support**: Mouse wheel scrolling for backup lists and dialogs.
+            ## What's New
+            - 🖥️ **Cross-Platform Fonts**: Native fonts on Windows (Segoe UI), macOS (SF Pro), and Linux (Ubuntu)
+            - 📐 **Consistent Spacing**: Unified spacing system throughout the UI
+            - 🔄 **Cleaner Code**: Removed platform-specific conditionals
 
             ## Improvements
-            - 🎨 **UI Consistency**: Unified dialog styling with modern theme.
-            - 🐛 **Bug Fixes**: Resolved startup errors and tray behavior on Linux.
+            - Better font rendering on all platforms
+            - Improved visual consistency
+            - Enhanced readability
 
             ## Downloads
             - **Linux**: `rclone-backup-manager-linux.zip`
             - **Windows**: `rclone-backup-manager-windows.zip`
 
             ## Installation
-            1. Download the zip for your OS.
-            2. Extract it.
-            3. Run the executable (`rclone-backup-manager`).
+            1. Download the zip for your OS
+            2. Extract it
+            3. Run `rclone-backup-manager`
 
-            *Note: Requires `rclone` to be installed on your system.*
+            *Requires `rclone` installed on your system.*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

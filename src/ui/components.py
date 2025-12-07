@@ -11,7 +11,7 @@ from ..utils.constants import (
     CFG_FILE, LOG_FILE, HAS_TRAY, HAS_TTK_BOOTSTRAP,
     COLORS, ttk, messagebox, scrolledtext
 )
-from .theme import ICONS
+from .theme import ICONS, get_font, SPACING
 
 
 def create_tooltip(widget, text: str):
@@ -41,7 +41,7 @@ class ModernCard(ttk.Frame):
             ttk.Label(
                 title_frame,
                 text=title,
-                font=('Segoe UI', 11, 'bold') if platform.system() == 'Windows' else ('', 11, 'bold')
+                font=get_font(11, 'bold')
             ).pack(side=tk.LEFT)
         
         # Content area
@@ -158,7 +158,7 @@ def create_status_bar(parent, initial_text: str = "Ready") -> Tuple[ttk.Label, t
     status_label = ttk.Label(
         left_frame,
         text=f"{ICONS['success']} {initial_text}",
-        font=('Segoe UI', 9) if platform.system() == 'Windows' else ('', 9)
+        font=get_font(9)
     )
     status_label.pack(side=tk.LEFT)
     
@@ -169,7 +169,7 @@ def create_status_bar(parent, initial_text: str = "Ready") -> Tuple[ttk.Label, t
     backup_count_label = ttk.Label(
         right_frame,
         text=f"{ICONS['folder']} 0 backup(s)",
-        font=('Segoe UI', 9) if platform.system() == 'Windows' else ('', 9),
+        font=get_font(9),
         foreground=COLORS['muted']
     )
     backup_count_label.pack(side=tk.RIGHT)
@@ -198,9 +198,9 @@ def show_custom_dialog(parent, title: str, message: str, width: int = 600, heigh
     text_widget = scrolledtext.ScrolledText(
         frame,
         wrap=tk.WORD,
-        font=('Consolas', 10) if platform.system() == 'Windows' else ('Monospace', 10),
-        padx=10,
-        pady=10
+        font=get_font(10, mono=True),
+        padx=SPACING['md'],
+        pady=SPACING['md']
     )
     text_widget.pack(fill=tk.BOTH, expand=True, pady=(0, 15))
     text_widget.insert('1.0', message)

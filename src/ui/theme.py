@@ -1,9 +1,61 @@
 # Theme Manager and Icons | Python
 """Modern theme management and SVG-style icon definitions."""
 
-from typing import Dict
+import platform
+from typing import Dict, Tuple
 
 from ..utils.constants import HAS_TTK_BOOTSTRAP, COLORS
+
+
+# Cross-platform font configuration
+FONTS = {
+    'Windows': {
+        'primary': 'Segoe UI',
+        'mono': 'Consolas',
+    },
+    'Darwin': {
+        'primary': 'SF Pro Display',
+        'mono': 'SF Mono',
+    },
+    'Linux': {
+        'primary': 'Ubuntu',
+        'mono': 'Ubuntu Mono',
+    },
+    'fallback': {
+        'primary': 'Arial',
+        'mono': 'Courier',
+    }
+}
+
+# Consistent spacing throughout the app
+SPACING = {
+    'xs': 2,
+    'sm': 5,
+    'md': 10,
+    'lg': 15,
+    'xl': 20,
+    'xxl': 30,
+}
+
+
+def get_font(size: int = 10, weight: str = '', mono: bool = False) -> Tuple[str, int] | Tuple[str, int, str]:
+    """Get a cross-platform font tuple for tkinter widgets.
+    
+    Args:
+        size: Font size in points
+        weight: Font weight ('bold', 'italic', or '')
+        mono: Use monospace font instead of primary
+    
+    Returns:
+        Font tuple suitable for tkinter widget config
+    """
+    system = platform.system()
+    fonts = FONTS.get(system, FONTS['fallback'])
+    font_name = fonts['mono'] if mono else fonts['primary']
+    
+    if weight:
+        return (font_name, size, weight)
+    return (font_name, size)
 
 
 # Unicode icons for cross-platform compatibility

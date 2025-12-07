@@ -12,7 +12,7 @@ from ..utils.constants import (
 )
 from ..core.backup_manager import BackupManager
 from .components import create_tooltip
-from .theme import ICONS
+from .theme import ICONS, get_font, SPACING
 
 
 class LogsTab:
@@ -42,7 +42,7 @@ class LogsTab:
         ttk.Label(
             header,
             text=f"{ICONS['file']} Backup Logs",
-            font=('Segoe UI', 14, 'bold')
+            font=get_font(14, 'bold')
         ).pack(side=tk.LEFT)
         
         # Controls frame
@@ -127,10 +127,10 @@ class LogsTab:
         self.log_viewer = scrolledtext.ScrolledText(
             viewer_frame,
             wrap=tk.WORD,
-            font=('Consolas', 10) if IS_WINDOWS else ('Monospace', 10),
+            font=get_font(10, mono=True),
             state=tk.DISABLED,
-            padx=10,
-            pady=10,
+            padx=SPACING['md'],
+            pady=SPACING['md'],
             bg='#1e1e1e' if HAS_TTK_BOOTSTRAP else 'white',
             fg='#d4d4d4' if HAS_TTK_BOOTSTRAP else 'black',
             insertbackground='white'
@@ -142,7 +142,7 @@ class LogsTab:
         self.log_viewer.tag_configure('error', foreground='#f14c4c')
         self.log_viewer.tag_configure('warning', foreground='#cca700')
         self.log_viewer.tag_configure('info', foreground='#3794ff')
-        self.log_viewer.tag_configure('header', foreground='#569cd6', font=('Consolas', 10, 'bold'))
+        self.log_viewer.tag_configure('header', foreground='#569cd6', font=get_font(10, 'bold', mono=True))
 
     def _refresh_log_selector(self):
         """Refresh the backup selector dropdown."""

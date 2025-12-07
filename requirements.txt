@@ -1,0 +1,4 @@
+# RClone Backup Manager - Dependencies
+ttkbootstrap>=1.10.1
+pystray>=0.19.4
+Pillow>=9.0.0

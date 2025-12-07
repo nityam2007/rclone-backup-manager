@@ -9,7 +9,7 @@ from ..core.backup_manager import BackupManager
 from ..core.config_manager import save_config
 from ..core.rclone_runner import list_remotes
 from .components import create_tooltip
-from .theme import ICONS
+from .theme import ICONS, get_font, SPACING
 
 
 class ConfigTab:
@@ -50,7 +50,7 @@ class ConfigTab:
         ttk.Label(
             title_frame,
             text=f"{ICONS['settings']} Configuration",
-            font=('Segoe UI', 14, 'bold')
+            font=get_font(14, 'bold')
         ).pack(side=tk.LEFT)
         
         # Config file indicator
@@ -228,7 +228,7 @@ class ConfigTab:
             ttk.Label(
                 empty_frame,
                 text=f"{ICONS['add']} No backups configured",
-                font=('Segoe UI', 11),
+                font=get_font(11),
                 foreground=COLORS['muted']
             ).pack()
             
@@ -372,8 +372,8 @@ class ConfigTab:
         ttk.Label(
             frame,
             text=f"{ICONS['add']} New Backup Configuration",
-            font=('Segoe UI', 12, 'bold')
-        ).pack(anchor=tk.W, pady=(0, 20))
+            font=get_font(12, 'bold')
+        ).pack(anchor=tk.W, pady=(0, SPACING['xl']))
         
         # Form fields
         form = ttk.Frame(frame)
@@ -406,8 +406,8 @@ class ConfigTab:
             form,
             text="Example remote: gdrive:Backups/MyFolder or onedrive:Documents",
             foreground=COLORS['muted'],
-            font=('Segoe UI', 9)
-        ).pack(anchor=tk.W, pady=(5, 0))
+            font=get_font(9)
+        ).pack(anchor=tk.W, pady=(SPACING['sm'], 0))
         
         # Buttons
         btn_frame = ttk.Frame(frame)
