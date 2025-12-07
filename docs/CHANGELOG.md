@@ -2,17 +2,13 @@
 
 All notable changes to RClone Backup Manager will be documented in this file.
 
-## [2.3.0] - 2025-12-07
-### Added
-- **Cross-Platform Fonts**: Native fonts on Windows (Segoe UI), macOS (SF Pro), Linux (Ubuntu)
-- **Consistent Spacing**: Unified spacing system throughout the UI
-
+## [2.4.0] - 2025-12-07
 ### Fixed
-- **Minimize to Tray**: Button now works correctly after restoring from tray
-- **PyInstaller Spec**: Fully self-contained build with all dependencies bundled
+- **Minimize Button**: Now always works when clicked (regardless of setting)
+- **Tray Integration**: Button click bypasses setting check, works reliably
 
 ### Changed
-- **Version**: Bumped to v2.3.0 for production-ready UI release
+- **Production Ready**: Stable release with all features working
 
 ## [2.1.2] - 2025-12-01
 ### Added

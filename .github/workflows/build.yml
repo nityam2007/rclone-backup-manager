@@ -93,28 +93,23 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            # RClone Backup Manager v2.3.0
+            # RClone Backup Manager v2.4.0
 
-            🎨 **Production-Ready UI Release**
+            🚀 **Production Release**
 
             ## What's New
-            - 🖥️ **Cross-Platform Fonts**: Native fonts on Windows (Segoe UI), macOS (SF Pro), and Linux (Ubuntu)
-            - 📐 **Consistent Spacing**: Unified spacing system throughout the UI
-            - 🔄 **Cleaner Code**: Removed platform-specific conditionals
-
-            ## Improvements
-            - Better font rendering on all platforms
-            - Improved visual consistency
-            - Enhanced readability
+            - ✅ **Minimize Button Fixed**: Always works when clicked
+            - 🖥️ **Cross-Platform Fonts**: Native fonts on Windows, macOS, Linux
+            - 📦 **Self-Contained Build**: Single executable, no Python needed
 
             ## Downloads
             - **Linux**: `rclone-backup-manager-linux.zip`
             - **Windows**: `rclone-backup-manager-windows.zip`
 
             ## Installation
-            1. Download the zip for your OS
-            2. Extract it
-            3. Run `rclone-backup-manager`
+            1. Download zip for your OS
+            2. Extract and run `rclone-backup-manager`
+            3. Configure your backups in the UI
 
             *Requires `rclone` installed on your system.*
         env:
