@@ -224,9 +224,10 @@ class MainWindow:
         if not self.minimize_to_tray_enabled.get():
             return
         
-        if HAS_TRAY and self.tray_manager and not self.is_minimized_to_tray:
+        if HAS_TRAY and self.tray_manager:
             self.root.withdraw()
             self.is_minimized_to_tray = True
+            # Start tray icon if not already running
             self.tray_manager.run()
 
     def _start_minimized(self):

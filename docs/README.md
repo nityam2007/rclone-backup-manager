@@ -30,28 +30,22 @@ Want to build the executable yourself? Check out [BUILD.md](BUILD.md).
 
 ## Prerequisites
 
-1.  **Python 3.7+**
-2.  **rclone**: Must be installed and configured (`rclone config`).
+1.  **rclone**: Must be installed and configured (`rclone config`).
     - [Download rclone](https://rclone.org/downloads/)
 
 ## Installation
 
-1.  Clone the repo:
-    ```bash
-    git clone https://github.com/Nityam2007/rclone-backup-manager.git
-    cd rclone-backup-manager
-    ```
+### Option 1: Download Executable (Recommended)
+Download from [Releases](https://github.com/Nityam2007/rclone-backup-manager/releases) - no Python needed.
 
-2.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *(On Linux, you might need `sudo apt install python3-tk`)*
-
-3.  Run it:
-    ```bash
-    python main.py
-    ```
+### Option 2: Run from Source
+```bash
+git clone https://github.com/Nityam2007/rclone-backup-manager.git
+cd rclone-backup-manager
+pip install -r requirements.txt
+python main.py
+```
+*(Linux may need `sudo apt install python3-tk`)*
 
 ## Usage
 
