@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rclone-backup-manager-linux
-          path: dist/rclone-backup-manager/
+          path: dist/rclone-backup-manager
 
   build-windows:
     runs-on: windows-latest
@@ -44,7 +44,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rclone-backup-manager-windows
-          path: dist/rclone-backup-manager/
+          path: dist/rclone-backup-manager.exe
 
   release:
     needs: [build-linux, build-windows]
