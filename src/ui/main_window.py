@@ -137,7 +137,7 @@ class MainWindow:
             backup_frame,
             self.manager,
             self.root,
-            on_minimize=self._minimize_to_tray
+            on_minimize=lambda: self._minimize_to_tray(force=True)
         )
         self.backup_tab.status_bar = self.status_bar
         self.backup_tab.setup()
@@ -219,16 +219,24 @@ class MainWindow:
         if self.root.state() == 'iconic':
             self._minimize_to_tray()
 
-    def _minimize_to_tray(self):
-        """Minimize to system tray."""
-        if not self.minimize_to_tray_enabled.get():
+    def _minimize_to_tray(self, force: bool = False):
+        """Minimize to system tray.
+        
+        Args:
+            force: If True, minimize regardless of setting (used by button click)
+        """
+        # Check setting only if not forced (e.g., from window minimize event)
+        if not force and not self.minimize_to_tray_enabled.get():
             return
         
         if HAS_TRAY and self.tray_manager:
+            logger.info("Minimizing to system tray")
             self.root.withdraw()
             self.is_minimized_to_tray = True
-            # Start tray icon if not already running
             self.tray_manager.run()
+        else:
+            # Fallback: just iconify
+            self.root.iconify()
 
     def _start_minimized(self):
         """Start application minimized to tray."""
