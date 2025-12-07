@@ -64,3 +64,10 @@ Thumbs.db
 
 # Temporary files
 .TRASH/
+
+
+/data/
+
+*.json
+
+data/state.json
